@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def find_eyes(img_grayscale,
+def find_eyes_from_image(img_grayscale,
     ysize = 20,
     xsize = 15,
     x_bound = 30,
@@ -121,13 +121,13 @@ def find_eyes(img_grayscale,
     params.filterByColor = True
     params.blobColor = 255
 
-    params.minCircularity = 0
+    # params.minCircularity = 0.1
 
     params.filterByArea = True
     params.minArea = 5
     params.maxArea = 100
 
-    detector = cv2.SimpleBlobDetector_create(params)
+    detector = cv2.SimpleBlobDetector_create(params) #
 
     binary_img = (thresh_eye*100).astype("uint8")
     keypoints = detector.detect(binary_img)
