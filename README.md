@@ -13,5 +13,8 @@ How to run code:
 - the "validation" notebook visualizes the data
 
 The cropped images are in "cropped"
+
 The raw images (as .pngs, the original database is .gifs) are in "images"
+
 Various testing notebooks are in "testing"
+
