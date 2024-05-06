@@ -64,7 +64,7 @@ def find_mouth_curve_from_image(im_file):
 
     if (result > 0): 
         return "happiness"
-    elif (result < -0.001):
+    elif (result < -0.01):
         return "sadness"
     else:
         return "neutral"

@@ -1,5 +1,5 @@
 ,images,emotions
-0,subject01_happy_cropped.png,sadness
+0,subject01_happy_cropped.png,neutral
 1,subject02_happy_cropped.png,sadness
 2,subject03_happy_cropped.png,happiness
 3,subject07_happy_cropped.png,sadness
@@ -11,7 +11,7 @@
 9,subject02_sad_cropped.png,sadness
 10,subject03_sad_cropped.png,sadness
 11,subject05_sad_cropped.png,happiness
-12,subject06_sad_cropped.png,sadness
+12,subject06_sad_cropped.png,neutral
 13,subject08_sad_cropped.png,happiness
 14,subject09_sad_cropped.png,sadness
 15,subject11_sad_cropped.png,sadness
@@ -20,10 +20,10 @@
 18,subject01_normal_cropped.png,sadness
 19,subject02_normal_cropped.png,sadness
 20,subject03_normal_cropped.png,sadness
-21,subject06_normal_cropped.png,sadness
-22,subject08_normal_cropped.png,sadness
+21,subject06_normal_cropped.png,neutral
+22,subject08_normal_cropped.png,neutral
 23,subject09_normal_cropped.png,happiness
-24,subject10_normal_cropped.png,sadness
+24,subject10_normal_cropped.png,neutral
 25,subject11_normal_cropped.png,happiness
 26,subject12_normal_cropped.png,happiness
 27,subject14_normal_cropped.png,sadness
