@@ -10,24 +10,35 @@ import numpy as np
 from find_eyes import find_eyes_from_image
 
 def find_mouth_curve_from_image(im_file):
-    im = np.float32(cv2.imread(im_file, cv2.IMREAD_GRAYSCALE) / 255.0)
-    im_crop = im[20:, 100:260] 
+    im_crop = np.float32(cv2.imread(im_file, cv2.IMREAD_GRAYSCALE) / 255.0)
+    # im_crop = im[20:, 100:260] 
 
     eye_list = find_eyes_from_image(im_crop)
 
-    im = cv2.imread(im_file, cv2.IMREAD_GRAYSCALE)
+    im_binary = cv2.imread(im_file, cv2.IMREAD_GRAYSCALE)
 
-    im_crop = im[20:, 100:260] 
+    # im_crop = im[20:, 100:260] 
 
-    ret, thresh = cv2.threshold(im_crop, 60, 255, cv2.THRESH_BINARY)
+    ret, thresh = cv2.threshold(im_binary, 60, 255, cv2.THRESH_BINARY)
 
-    y_min = int(eye_list[0][1] + 0.19 * im_crop.shape[0])
+    # plt.imshow(thresh)
+    # plt.show()
+
+    #print(eye_list)
+
+    y_min = int(eye_list[0][1] + 0.22 * im_crop.shape[0])
     y_max = int(y_min + 0.19 * im_crop.shape[0])
 
-    x_min = int(eye_list[0][0] - 0.17 * im_crop.shape[1])
-    x_max = int(eye_list[1][0] + 0.17 * im_crop.shape[1])
+    x_1 = eye_list[0][0]
+    x_2 = eye_list[1][0]
+
+    x_max = int(np.max([x_1, x_2]) + 0.17 * im_crop.shape[1])
+    x_min = int(np.min([x_1, x_2]) - 0.17 * im_crop.shape[1])
 
     thresh = thresh[y_min:y_max, x_min:x_max]
+
+    # plt.imshow(thresh)
+    # plt.show()
 
     features = cv2.SIFT_create() 
       
@@ -41,7 +52,7 @@ def find_mouth_curve_from_image(im_file):
     for i in range(kp_len):
         xcoords[i] = keypoints[i].pt[0]
         ycoords[i] = keypoints[i].pt[1]
-    
+
     coeffs = np.polyfit(xcoords, ycoords, 2)
     
     # the first coefficient determines if the curve is up or down

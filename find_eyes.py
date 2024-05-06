@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
 def find_eyes_from_image(img_grayscale,
     ysize = 20,
@@ -48,19 +49,44 @@ def find_eyes_from_image(img_grayscale,
 
     # FIND EYES
     keypoints = detector.detect(binary_img1)
+    # print(keypoints)
 
-
+    
     #EXCLUDE BLOBS NOT IN TYPICAL EYE LOCATION
     for kp in keypoints:
         if kp.pt[1] > binary_img1.shape[0]*0.5: continue
-        if kp.pt[1] < binary_img1.shape[0]*0.25: continue
+        if kp.pt[1] < binary_img1.shape[0]*0.1: continue
 
 
-        if kp.pt[0] > binary_img1.shape[1]*0.8: continue
-        if kp.pt[0] < binary_img1.shape[1]*0.2: continue
+        if kp.pt[0] > binary_img1.shape[1]*0.9: continue
+        if kp.pt[0] < binary_img1.shape[1]*0.1: continue
 
         potential_eyes.append(kp.pt)
-
+        
+    THRESHOLD_VAL = 0.5
+    while len(potential_eyes) == 0:
+        potential_eyes = []
+        THRESHOLD_VAL -= 0.02
+        thresh1 = (har_fil1 > np.max(har_fil1)*THRESHOLD_VAL)*1.0
+        binary_img1 = (thresh1*100).astype("uint8")
+        keypoints = detector.detect(binary_img1)
+        if THRESHOLD_VAL < 0.3: THRESHOLD_VAL = 0.9
+        if THRESHOLD_VAL == 0.5: continue
+        # print(THRESHOLD_VAL)
+        for kp in keypoints:
+            if kp.pt[1] > binary_img1.shape[0]*0.5: continue
+            if kp.pt[1] < binary_img1.shape[0]*0.25: continue
+    
+    
+            if kp.pt[0] > binary_img1.shape[1]*0.9: continue
+            if kp.pt[0] < binary_img1.shape[1]*0.1: continue
+    
+            potential_eyes.append(kp.pt)
+    
+    # print(potential_eyes)
+    # plt.imshow(binary_img1)
+    # plt.show()
+    
     # FIND CHEEKS
     keypoints = detector.detect(binary_img2)
 
@@ -77,8 +103,12 @@ def find_eyes_from_image(img_grayscale,
 
 
     plot_eyes = np.array(potential_eyes)
-    plot_eyes[:,0] = plot_eyes[:,0]+ xsize/2
-    plot_eyes[:,1] = plot_eyes[:,1]+ ysize/2
+    if( len(plot_eyes.shape) < 2):
+        plot_eyes[0] = plot_eyes[0]+ xsize/2
+        plot_eyes[1] = plot_eyes[1]+ ysize/2
+    else:
+        plot_eyes[:,0] = plot_eyes[:,0]+ xsize/2
+        plot_eyes[:,1] = plot_eyes[:,1]+ ysize/2
 
     plot_cheeks = np.array(potential_cheeks)
     plot_cheeks[:,0] = plot_cheeks[:,0]+ xsize/2
@@ -125,7 +155,7 @@ def find_eyes_from_image(img_grayscale,
 
     params.filterByArea = True
     params.minArea = 5
-    params.maxArea = 100
+    params.maxArea = 2000
 
     detector = cv2.SimpleBlobDetector_create(params) #
 
@@ -141,6 +171,10 @@ def find_eyes_from_image(img_grayscale,
         keypoints = detector.detect(binary_img)
         if THRESHOLD_VAL == 0.7: THRESHOLD_VAL = 0.9
         if THRESHOLD_VAL == 0.8: continue
+
+    # plt.imshow(binary_img)
+    # plt.show()
+    # print(keypoints)
 
     exact_eyes = []
     for kp in keypoints:
