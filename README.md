@@ -11,6 +11,7 @@ How to run code:
 - running the "emotion" notebook crops the images and finds emotions using Py-Feat
 - the "emotion_detector" notebook runs our method on the images
 - the "validation" notebook visualizes the data
+- "reformat images" was used to convert the files to pngs, but is now obselete
 
 The cropped images are in "cropped"
 
